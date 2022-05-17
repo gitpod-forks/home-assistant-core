@@ -23,7 +23,7 @@ fi
 
 script/bootstrap
 
-pre-commit install
+pre-commit install --install-hooks
 python3 -m pip install -e . --constraint homeassistant/package_constraints.txt --use-deprecated=legacy-resolver
 
 hass --script ensure_config -c config
@@ -34,5 +34,15 @@ logger:
   default: info
   logs:
     homeassistant.components.cloud: debug
+" >> config/configuration.yaml
+fi
+
+# Setup Gitpod browser preview
+if [ -n "$GITPOD" ];then
+echo "
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 10.20.0.0/16
 " >> config/configuration.yaml
 fi
